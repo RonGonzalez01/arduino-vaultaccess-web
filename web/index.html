@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Intentos - Caja Fuerte</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: url('caja-fuerte.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .content-wrapper {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #333;
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        h3 {
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            text-align: center;
+        }
+
+        table {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #2d3436;
+            color: #ffffff;
+        }
+
+        /* Clases específicas para colorear los textos */
+        .estado-abierto {
+            color: green !important;
+        }
+
+        .estado-error {
+            color: red !important;
+        }
+
+        .dinero-negativo {
+            color: red !important;
+        }
+
+        .dinero-positivo {
+            color: green !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container content-wrapper">
+        <h1>VaultAccess</h1>
+        <h3>Historial</h3>
+        <table class="table table-striped mt-4">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>ID RFID</th>
+                    <th>Estado</th>
+                    <th>Dinero</th>
+                    <th>Fecha y Hora</th>
+                </tr>
+            </thead>
+            <tbody id="attempts-table-body">
+                <!-- Datos cargados dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchAttempts() {
+            try {
+                const response = await fetch('http://localhost:3000/api/attempts');
+                if (!response.ok) throw new Error('Error en la respuesta de la API');
+
+                const attempts = await response.json();
+
+                const tableBody = document.getElementById('attempts-table-body');
+                tableBody.innerHTML = '';
+
+                attempts.forEach(attempt => {
+                    const row = document.createElement('tr');
+                    const formattedDate = new Date(attempt.timestamp).toLocaleString();
+
+                    // Colorear Estado
+                    const estadoClass = attempt.status === 'Abierto' ? 'estado-abierto' : 'estado-error';
+
+                    // Colorear Dinero
+                    const dineroClass = attempt.money < 0 ? 'dinero-negativo' : 'dinero-positivo';
+
+                    row.innerHTML = `
+                        <td>${attempt.name}</td>
+                        <td>${attempt.rfidId}</td>
+                        <td class="${estadoClass}">${attempt.status}</td>
+                        <td class="${dineroClass}">${attempt.money}</td>
+                        <td>${formattedDate}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error al cargar los intentos:', error);
+                document.getElementById('attempts-table-body').innerHTML = `
+                    <tr><td colspan="5">Error al cargar los datos</td></tr>
+                `;
+            }
+        }
+
+        fetchAttempts();
+    </script>
+</body>
+
+</html>
