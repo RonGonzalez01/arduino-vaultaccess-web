@@ -1,0 +1,26 @@
+[{
+  "_id": {
+    "$oid": "679d750267e7bc2fedb47c1c"
+  },
+  "name": "Juan Perez",
+  "rfidId": "123ABC456",
+  "status": "Abierto",
+  "timestamp": {
+    "$date": "2025-02-01T01:12:34.775Z"
+  },
+  "__v": 0,
+  "money": "+500"
+},
+{
+  "_id": {
+    "$oid": "679d760667e7bc2fedb47c26"
+  },
+  "name": "Ronnie Gonzalez",
+  "rfidId": "123ABC123",
+  "status": "Abierto",
+  "timestamp": {
+    "$date": "2025-02-01T01:16:54.800Z"
+  },
+  "__v": 0,
+  "money": "-100"
+}]
