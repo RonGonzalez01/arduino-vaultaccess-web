@@ -25,8 +25,8 @@ const Attempt = mongoose.model('Attempt', attemptSchema);
 // Endpoint para recibir intentos
 app.post('/api/attempts', async (req, res) => {
   try {
-    const { name, rfidId, status } = req.body;
-    const newAttempt = new Attempt({ name, rfidId, status });
+    const { name, rfidId, money } = req.body;
+    const newAttempt = new Attempt({ name, rfidId, money });
     await newAttempt.save();
     res.status(201).json({ message: 'Intento guardado correctamente' });
   } catch (error) {
