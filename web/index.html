@@ -52,14 +52,6 @@
         }
 
         /* Clases específicas para colorear los textos */
-        .estado-abierto {
-            color: green !important;
-        }
-
-        .estado-error {
-            color: red !important;
-        }
-
         .dinero-negativo {
             color: red !important;
         }
@@ -79,7 +71,6 @@
                 <tr>
                     <th>Nombre</th>
                     <th>ID RFID</th>
-                    <th>Estado</th>
                     <th>Dinero</th>
                     <th>Fecha y Hora</th>
                 </tr>
@@ -105,16 +96,12 @@
                     const row = document.createElement('tr');
                     const formattedDate = new Date(attempt.timestamp).toLocaleString();
 
-                    // Colorear Estado
-                    const estadoClass = attempt.status === 'Abierto' ? 'estado-abierto' : 'estado-error';
-
                     // Colorear Dinero
                     const dineroClass = attempt.money < 0 ? 'dinero-negativo' : 'dinero-positivo';
 
                     row.innerHTML = `
                         <td>${attempt.name}</td>
                         <td>${attempt.rfidId}</td>
-                        <td class="${estadoClass}">${attempt.status}</td>
                         <td class="${dineroClass}">${attempt.money}</td>
                         <td>${formattedDate}</td>
                     `;

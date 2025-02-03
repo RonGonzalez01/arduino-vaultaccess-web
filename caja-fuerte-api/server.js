@@ -17,7 +17,7 @@ mongoose.connect('mongodb://localhost:27017/caja_fuerte_db', { useNewUrlParser: 
 const attemptSchema = new mongoose.Schema({
   name: String,
   rfidId: String,
-  status: String,
+  money: String,
   timestamp: { type: Date, default: Date.now }
 });
 const Attempt = mongoose.model('Attempt', attemptSchema);
